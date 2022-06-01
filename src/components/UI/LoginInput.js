@@ -1,31 +1,15 @@
-import React from 'react'
+import React, { forwardRef  } from "react";
 
-{/* <LoginInput changeHandler={emailChangeHandler} name='E-Mail' value={loginState.enteredEmail} isValid={loginState.emailIsValid}  /> */}
+//forwardRef so it can be accessed in parent component
+const LoginInput = forwardRef((props, ref) => {
+  const { value, name, changeHandler, isValid, id } = props;
 
-
-export default function LoginInput(props) {
-    const {value, name, changeHandler, isValid, id } = props
   return (
-    <div className={`control ${isValid === false ? "invalid" : ""}`}>
-    <label htmlFor={id}>{name}</label>
-    <input
-      type={id}
-      id={id}
-      value={value}
-      onChange={changeHandler}
-    />
-  </div>
-  )
-}
+    <div  className={`control ${isValid === false ? "invalid" : ""}`}>
+      <label htmlFor={id}>{name}</label>
+      <input ref={ref} type={id} id={id} value={value} onChange={changeHandler} />
+    </div>
+  );
+});
 
-
-
-{/* <div className={`control ${loginState.emailIsValid === false ? "invalid" : ""}`}>
-<label htmlFor="email">E-Mail</label>
-<input
-  type="email"
-  id="email"
-  value={loginState.enteredEmail}
-  onChange={emailChangeHandler}
-/>
-</div> */}
+export default LoginInput;
