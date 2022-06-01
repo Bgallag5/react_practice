@@ -5,6 +5,7 @@ import Button from "./UI/Button";
 
 import { loginReducer } from "../reducers/reducer";
 import AppContext from "../store/app-context";
+import LoginInput from "./UI/LoginInput";
 
 const Login = () => {
 
@@ -65,26 +66,8 @@ const Login = () => {
   return (
     <Card className="login">
       <form onSubmit={submitHandler}>
-        <div className={`control ${loginState.emailIsValid === false ? "invalid" : ""}`}>
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={loginState.enteredEmail}
-            onChange={emailChangeHandler}
-          />
-        </div>
-        <div
-          className={`control ${loginState.passwordIsValid === false ? "invalid" : ""}`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={loginState.enteredPassword}
-            onChange={passwordChangeHandler} 
-          />
-        </div>
+        <LoginInput id={'email'} changeHandler={emailChangeHandler} name='E-Mail' value={loginState.enteredEmail} isValid={loginState.emailIsValid}  />
+        <LoginInput id={'password'} changeHandler={passwordChangeHandler} name='Password' value={loginState.enteredPassword} isValid={loginState.passwordIsValid}  />
         <div className="actions">
           <Button type="submit" className="btn" disabled={!formIsValid}>
             Login

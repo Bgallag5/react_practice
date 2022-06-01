@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+//create the app context provider
 const AppContext = React.createContext();
 
+//wrap the provider in a component with all our global variables and functions
 export const AppContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
