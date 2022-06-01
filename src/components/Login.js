@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "./UI/Card";
 import Button from "./UI/Button";
 
 import { loginReducer } from "../reducers/reducer";
+import AppContext from "../store/app-context";
 
-const Login = (props) => {
-//   const [enteredEmail, setEnteredEmail] = useState("");
-//   const [emailIsValid, setEmailIsValid] = useState();
-//   const [enteredPassword, setEnteredPassword] = useState("");
-//   const [passwordIsValid, setPasswordIsValid] = useState();
+const Login = () => {
+
+    const {loginHandler} = useContext(AppContext)
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const [debouncedEmail, setDebouncedEmail] = useState();
+//   const [debouncedEmail, setDebouncedEmail] = useState();
 
-
+    //login form state reducer
   const [loginState, loginDispatch] = useReducer(loginReducer, {
     enteredEmail: "",
     emailIsValid: undefined,
@@ -22,18 +21,18 @@ const Login = (props) => {
     passwordIsValid: undefined
   });
 
-  //watch email input, set debounced value
-  useEffect(() => {
-    if (!loginState.enteredEmail) return;
-    //sets debounced value after 1 sec delay
-    const debouncedTimer = setTimeout(() => {
-      setDebouncedEmail(loginState.enteredEmail);
-    }, 1000);
+//   //watch email input, set debounced value
+//   useEffect(() => {
+//     if (!loginState.enteredEmail) return;
+//     //sets debounced value after 1 sec delay
+//     const debouncedTimer = setTimeout(() => {
+//       setDebouncedEmail(loginState.enteredEmail);
+//     }, 1000);
 
-    //use effect cleanup function
-    //return a function that clears our timer (so a new timer is set everytime the effect runs)
-    return () => clearTimeout(debouncedTimer);
-  }, [loginState.enteredEmail]);
+//     //use effect cleanup function
+//     //return a function that clears our timer (so a new timer is set everytime the effect runs)
+//     return () => clearTimeout(debouncedTimer);
+//   }, [loginState.enteredEmail]);
 
   //dispatch email change
   const emailChangeHandler = (e) => {
@@ -46,30 +45,21 @@ const Login = (props) => {
     loginDispatch({type: "PASSWORD_CHANGE", payload: e.target.value})
   };
 
-//   //on input blur (aka un-focus) check valid 
-//   const validateEmailHandler = () => {
-//     loginDispatch({type: 'EMAIL_CHANGE', payload: loginState.enteredEmail})
-//   };
-
-//   const validatePasswordHandler = () => {
-//     setPasswordIsValid(enteredPassword.trim().length > 6);
-//   };
-
   const submitHandler = (e) => {
     e.preventDefault();
-    props.onLogin(loginState.enteredEmail, loginState.enteredPassword);
+    loginHandler(loginState.enteredEmail, loginState.enteredPassword);
   };
 
   //enable login button when inputs are valid
   useEffect(
     (e) => {
       console.log("CHECKING!");
-      if (!debouncedEmail || !loginState.enteredPassword) return;
+    //   if (!loginState.enteredPassword) return;
       setFormIsValid(
-        loginState.enteredPassword.trim().length > 6 && debouncedEmail.includes("@")
+        loginState.emailIsValid  && loginState.passwordIsValid
       );
     },
-    [debouncedEmail, loginState.enteredPassword]
+    [loginState.passwordIsValid, loginState.emailIsValid]
   );
 
   return (
@@ -82,7 +72,6 @@ const Login = (props) => {
             id="email"
             value={loginState.enteredEmail}
             onChange={emailChangeHandler}
-            // onBlur={validateEmailHandler}
           />
         </div>
         <div
@@ -93,8 +82,7 @@ const Login = (props) => {
             type="password"
             id="password"
             value={loginState.enteredPassword}
-            onChange={passwordChangeHandler}
-            // onBlur={validatePasswordHandler}
+            onChange={passwordChangeHandler} 
           />
         </div>
         <div className="actions">

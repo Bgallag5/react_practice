@@ -1,11 +1,3 @@
-// export const emailReducer = (state, action) => {
-//     switch(action.type){
-//         default:
-//         return state
-//         case 'email_change':
-//             return {...state, }
-//     }
-// }
 
 export const loginReducer = (state, action) => {
     // console.log(state);
@@ -19,11 +11,3 @@ export const loginReducer = (state, action) => {
   }
 };
 
-// export const passwordReducer = (state, action) => {
-//   switch (action.type) {
-//     default:
-//       return state;
-//     case "PASSWORD_CHANGE":
-//       return { ...state, enteredEmail: action.payload, emailIsValid: action.payload.includes("@") };
-//   }
-// };
